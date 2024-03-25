@@ -1,0 +1,50 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ producto.nombre | titlecase }}</mat-card-title>
+    <mat-card-subtitle *ngIf="producto.existencia > 5; else pocasUnidades" style="color: green">Disponible</mat-card-subtitle>
+    <ng-template #pocasUnidades>
+      <mat-card-subtitle style="color: red">Pocas unidades</mat-card-subtitle>
+    </ng-template>
+  </mat-card-header>
+
+  <img mat-card-image [src]="imagenUrl" [alt]="producto.nombre">
+
+  <mat-card-content class="mt-2">
+    <h4><strong *ngIf="producto.aprobado; else rechazado" style="color: green">Aprobado</strong></h4>
+    <ng-template #rechazado>
+      <ng-container *ngIf="!producto.rechazado; else noValido">
+        <mat-card-subtitle style="color: orangered">Validando...</mat-card-subtitle>
+      </ng-container>
+    </ng-template>
+    <ng-template #noValido>
+      <mat-card-subtitle style="color: red">Rechazado</mat-card-subtitle>
+    </ng-template>
+    <p>
+      <strong>Precio</strong> {{ producto.precio | currency: 'GTQ': 'symbol-narrow' }}
+      <br>
+      <strong>Existencia</strong> {{ producto.existencia }} Unidades
+      <br>
+      <mat-chip-listbox>
+        <mat-chip>
+          {{ producto.categoria.nombre }}
+        </mat-chip>
+      </mat-chip-listbox>
+    </p>
+  </mat-card-content>
+
+  <mat-divider></mat-divider>
+
+
+
+  <mat-card-actions>
+
+    <button mat-button
+                  [routerLink]="['/user/edit', producto._id]"
+                  mat-raised>
+            <mat-icon>edit</mat-icon>
+              Editar
+    </button>
+
+  </mat-card-actions>
+
+</mat-card>

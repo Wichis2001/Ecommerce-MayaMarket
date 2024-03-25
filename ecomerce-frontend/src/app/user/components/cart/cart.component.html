@@ -1,0 +1,63 @@
+<ng-template #divLoading>
+  <mat-grid-list cols="1">
+    <mat-grid-tile>
+      <mat-spinner></mat-spinner>
+    </mat-grid-tile>
+  </mat-grid-list>
+</ng-template>
+
+
+<div *ngIf="detalle; else divLoading" class="grid p-2">
+
+  <mat-card class="col-12 sm:col-6">
+
+    <mat-card-header>
+      <mat-card-title>{{ detalle.producto.nombre | titlecase }}</mat-card-title>
+      <mat-card-subtitle *ngIf="detalle.producto.existencia > 5; else pocasUnidades" style="color: green">Disponible</mat-card-subtitle>
+      <ng-template #pocasUnidades>
+        <mat-card-subtitle style="color: red">Pocas unidades</mat-card-subtitle>
+      </ng-template>
+    </mat-card-header>
+
+
+    <img mat-card-image [src]="imagenUrl" [alt]="detalle.producto.nombre">
+
+  </mat-card>
+
+  <mat-card class="col-12 sm:col-6">
+
+    <mat-card-header>
+      <mat-card-title>Información</mat-card-title>
+      <mat-card-subtitle>{{ detalle.producto.nombre | titlecase }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <h4><strong>Proveedor</strong> {{ detalle.producto.usuario.nombre | titlecase }}</h4>
+        <p>
+          <strong>Precio</strong> {{ detalle.producto.precio | currency: 'GTQ': 'symbol-narrow' }}
+          <br>
+          <strong>Unidades Adquiridas</strong> {{ detalle.cantidad }} {{ detalle.cantidad | i18nPlural: agregadosMap}}
+          <br>
+          <strong>Subtotal</strong> {{ detalle.sub_total | currency: 'GTQ': 'symbol-narrow' }}
+          <br>
+          <mat-chip-listbox>
+            <mat-chip>
+              {{ detalle.producto.categoria.nombre }}
+            </mat-chip>
+          </mat-chip-listbox>
+        </p>
+    </mat-card-content>
+
+    <div class="flex justify-content-between">
+      <button mat-button
+              mat-raised
+              color="primary"
+              (click)="delete()">
+        <mat-icon mat-icon>delete</mat-icon>
+          Eliminar
+      </button>
+    </div>
+  </mat-card>
+
+
+</div>

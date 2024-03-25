@@ -1,0 +1,29 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ usuario.nombre | titlecase }}</mat-card-title>
+    <mat-card-subtitle *ngIf="!usuario.estado; else pocasUnidades" style="color: orange">En Espera</mat-card-subtitle>
+    <ng-template #pocasUnidades>
+      <mat-card-subtitle style="color: green">Aprobado</mat-card-subtitle>
+    </ng-template>
+  </mat-card-header>
+
+  <mat-divider></mat-divider>
+
+  <mat-card-actions>
+
+    <button mat-button
+            mat-raised
+            (click)="aprobar()">
+      <mat-icon>check_circle</mat-icon>
+        Aprobar
+    </button>
+    <div class="spacer"></div>
+    <button mat-button
+            mat-raised
+            (click)="rechazar()">
+      <mat-icon>cancel</mat-icon>
+        Denegar
+    </button>
+  </mat-card-actions>
+
+</mat-card>

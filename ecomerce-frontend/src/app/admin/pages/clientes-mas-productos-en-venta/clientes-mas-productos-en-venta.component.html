@@ -1,0 +1,26 @@
+<h1>Top 10 Clientes Más Productos Tienen a la venta</h1>
+<mat-divider></mat-divider>
+<br>
+
+
+<table mat-table [dataSource]="reportes">
+  <!-- Columna de Índice -->
+  <ng-container matColumnDef="No.">
+    <th mat-header-cell *matHeaderCellDef>No.</th>
+    <td mat-cell *matCellDef="let reporte; let i = index">{{ i + 1 }}</td>
+  </ng-container>
+  <!-- Columna de Estado -->
+  <ng-container matColumnDef="Nombre Cliente">
+    <th mat-header-cell *matHeaderCellDef>Nombre Cliente</th>
+    <td mat-cell *matCellDef="let reporte">{{ reporte.nombreUsuario | titlecase }}</td>
+  </ng-container>
+  <!-- Columna de Estado -->
+  <ng-container matColumnDef="Productos en Venta">
+    <th mat-header-cell *matHeaderCellDef>Productos en Venta</th>
+    <td mat-cell *matCellDef="let reporte">{{ reporte.count }}</td>
+  </ng-container>
+  <!-- Agregar las columnas a la tabla -->
+  <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+  <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+</table>
+

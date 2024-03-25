@@ -1,0 +1,77 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ producto.nombre | titlecase }}</mat-card-title>
+    <mat-card-subtitle *ngIf="producto.existencia > 5; else pocasUnidades" style="color: green">Disponible</mat-card-subtitle>
+    <ng-template #pocasUnidades>
+      <mat-card-subtitle style="color: red">Pocas unidades</mat-card-subtitle>
+    </ng-template>
+  </mat-card-header>
+
+  <img mat-card-image [src]="imagenUrl" [alt]="producto.nombre">
+
+  <mat-card-content class="mt-2">
+    <h4><strong>Proveedor</strong> {{ producto.usuario.nombre | titlecase }}</h4>
+    <p>
+      <strong>Precio</strong> {{ producto.precio | currency: 'USD': 'symbol-narrow' }}
+      <br>
+      <strong>Existencia</strong> {{ producto.existencia }} Unidades
+      <br>
+      <mat-chip-listbox>
+        <mat-chip>
+          {{ producto.categoria.nombre }}
+        </mat-chip>
+      </mat-chip-listbox>
+    </p>
+  </mat-card-content>
+
+  <mat-divider></mat-divider>
+
+
+
+  <mat-card-actions>
+
+    <div class="grid">
+      <div class="col-1"></div>
+
+      <div class="col-3">
+          <form [formGroup]="miFormulario"
+                autocomplete="off"
+                (ngSubmit)="agregar()"
+                class="formgrid grid">
+
+            <mat-form-field>
+              <mat-label>Qty</mat-label>
+              <input matInput
+                     type="number"
+                     required
+                     formControlName="existenciaLlevar"
+                     min="1"
+                     [max]="producto.existencia">
+            </mat-form-field>
+          </form>
+        </div>
+
+      <div class="col-8">
+        <div class="flex justify-content-between">
+          <button mat-button
+                  mat-raised
+                  color="primary"
+                  type="submit"
+                  (click)="agregar()"
+                  [disabled]="miFormulario.invalid">
+            <mat-icon mat-icon>add_shopping_cart</mat-icon>
+              Comprar
+          </button>
+          <span class="spacer"></span>
+          <button mat-button
+                  [routerLink]="['/user', producto._id]"
+                  mat-raised>
+            <mat-icon>more_horiz</mat-icon>
+              Más
+          </button>
+        </div>
+      </div>
+    </div>
+  </mat-card-actions>
+
+</mat-card>
