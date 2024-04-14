@@ -18,6 +18,18 @@ const UsuarioSchema = Schema({
     },
     estado: {
         type: Boolean,
+        default: true
+    },
+    quetzal: {
+        type: Number,
+        default: 0.00
+    },
+    cacao: {
+        type: Number,
+        default: 100.00
+    },
+    aprobado: {
+        type: Boolean,
         default: false
     }
 });

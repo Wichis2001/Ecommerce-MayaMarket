@@ -60,13 +60,9 @@ const usuariosDelete = ((req, res = response) => {
 
 const aprobarUsuario = async ( req, res = response ) => {
 
-    const { nombre } = req.params;
-
     const { estado, ...data } = req.body
 
-    console.log( data )
-
-    data.estado = true;
+    data.aprobado = true;
 
     const usuario = await Usuario.findByIdAndUpdate( data.uid, data, { new: true } );
 
@@ -76,9 +72,7 @@ const aprobarUsuario = async ( req, res = response ) => {
 const rechazarUsuario = async ( req, res = response ) => {
     const { estado, ...data } = req.body
 
-    console.log( data )
-
-    data.estado = false;
+    data.estado = false
 
     const usuario = await Usuario.findByIdAndUpdate( data.uid, data, { new: true } );
 
@@ -87,7 +81,7 @@ const rechazarUsuario = async ( req, res = response ) => {
 
 const obtenerUsuarios = async ( req, res = response ) => {
     const { id } = req.params;
-    const query = { estado: false };
+    const query = { aprobado: false, estado: true };
 
     const productos = await Usuario.find( query )
 

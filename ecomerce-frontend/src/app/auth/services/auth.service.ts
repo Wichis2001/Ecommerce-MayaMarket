@@ -33,7 +33,10 @@ export class AuthService {
                             nombre: res.usuario!.nombre,
                             rol:  res.usuario!.rol,
                             estado: res.usuario!.estado!,
-                            uid: res.usuario!.rol
+                            uid: res.usuario!.rol,
+                            quetzal: res.usuario!.quetzal,
+                            cacao: res.usuario!.cacao,
+                            aprobado: res.usuario!.aprobado
                           }
                         }
                       }),
@@ -55,7 +58,10 @@ export class AuthService {
                             nombre: res.usuario!.nombre,
                             rol:  res.usuario!.rol,
                             estado: res.usuario!.estado!,
-                            uid: res.usuario!.uid
+                            uid: res.usuario!.uid,
+                            quetzal: res.usuario!.quetzal,
+                            cacao: res.usuario!.cacao,
+                            aprobado: res.usuario!.aprobado
                           }
                         }
                       }),
@@ -78,7 +84,10 @@ export class AuthService {
               nombre: res.usuario!.nombre,
               rol:  res.usuario!.rol,
               estado: res.usuario!.estado!,
-              uid: res.usuario!.uid
+              uid: res.usuario!.uid,
+              quetzal: res.usuario!.quetzal,
+              cacao: res.usuario!.cacao,
+              aprobado: res.usuario!.aprobado
             }
             return res.ok;
           }),

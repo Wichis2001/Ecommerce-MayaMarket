@@ -38,11 +38,21 @@ const login = async (req = request, res = response) => {
 
          }
 
-         //?Si el usuaario existe
+         //?El permiso de acceso a sido removido
          if( !usuario.estado ){
 
+            return res.status( 400 ).json({
+                msg: 'No tienes acceso al sistema',
+                ok: false
+            });
+
+        }
+
+         //?Verificar que el usuario exista y que este haya sido aprobado en el sistema
+         if( !usuario.aprobado ){
+
              return res.status( 400 ).json({
-                 msg: 'El usuario aún no tiene acceso al sistema',
+                 msg: 'Aún no has sisdo aprobado por un usuario administrador',
                  ok: false
              });
 
