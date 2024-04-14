@@ -1,8 +1,11 @@
 export interface Usuario {
-  nombre: string;
-  rol:    Role;
-  estado: boolean;
-  uid:    string;
+  nombre:   string;
+  rol:      Role;
+  estado:   boolean;
+  uid:      string;
+  quetzal:  number;
+  cacao:    number;
+  aprobado: boolean;
 }
 
 export enum Role {

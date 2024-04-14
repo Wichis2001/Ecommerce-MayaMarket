@@ -52,7 +52,7 @@ const login = async (req = request, res = response) => {
          if( !usuario.aprobado ){
 
              return res.status( 400 ).json({
-                 msg: 'Aún no has sisdo aprobado por un usuario administrador',
+                 msg: 'Aún no has sido aprobado por un usuario',
                  ok: false
              });
 
@@ -111,8 +111,31 @@ const login = async (req = request, res = response) => {
     })
 });
 
+const agregarUsuarioAdmin = ( async (req, res = response) => {
+
+    //!Pequeña validación
+    const { nombre, password } = req.body;
+    const usuario = new Usuario( { nombre, password, rol: 'ADMIN_ROLE', aprobado: true } );
+
+    //?Encriptar la contraseña
+    //Número de vueltas que se daran para hacer más complicada su desincriptación, por defecto en 10
+    const salt = bcryptjs.genSaltSync();
+    usuario.password = bcryptjs.hashSync( password, salt );
+
+    // Generar el JWT
+    const token = await generarJWT( usuario._id );
+
+    //*Guardar en DB
+    await usuario.save();
+
+    res.status(201).json({
+        usuario,
+        ok: true
+    })
+});
 module.exports = {
     agregarUsuario,
+    agregarUsuarioAdmin,
     login,
     revalidarToken
 }

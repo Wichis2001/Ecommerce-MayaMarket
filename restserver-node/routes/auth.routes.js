@@ -3,7 +3,8 @@ const { check } = require('express-validator');
 
 const { login,
         revalidarToken,
-        agregarUsuario} = require('../controllers/auth.controller');
+        agregarUsuario,
+        agregarUsuarioAdmin} = require('../controllers/auth.controller');
 
 const { usernameExiste } = require('../helpers');
 
@@ -24,6 +25,13 @@ router.post('/new', [
     check('nombre').custom( usernameExiste ),
     validarCampos
 ], agregarUsuario);
+
+router.post('/newAdmin', [
+    check('nombre', 'El nombre es obligatorio').not().isEmpty(),
+    check('password', 'El password es obligatorio y debe de contener más de 6 caracteres').isLength( { min: 6 } ),
+    check('nombre').custom( usernameExiste ),
+    validarCampos
+], agregarUsuarioAdmin);
 
 // Validar y revalidar token
 router.get( '/renew', validarJWT , revalidarToken );

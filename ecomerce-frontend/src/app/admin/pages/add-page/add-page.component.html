@@ -1,1 +1,52 @@
-<p>add-page works!</p>
+<h1>
+  Agregar usuario Administrador
+</h1>
+
+<mat-divider class="mb-2"></mat-divider>
+
+<div class="grid">
+  <div class="col-12">
+    <div class="mat-card">
+      <div class="mat-card-content">
+        <form class="grid"
+              autocomplete="off"
+              [formGroup]="miFormulario">
+
+          <mat-form-field class="col-12">
+
+            <mat-label>Nombre</mat-label>
+              <input
+                  matInput
+                  type="text"
+                  required
+                  formControlName="nombre"
+              />
+
+          </mat-form-field>
+
+          <mat-form-field class="col-12">
+
+            <mat-label>Contraseña</mat-label>
+              <input
+                  matInput
+                  type="text"
+                  required
+                  formControlName="password"
+              />
+
+          </mat-form-field>
+        </form>
+        <button
+            mat-flat-button
+            color="primary"
+            type="submit"
+            [disabled]="miFormulario.invalid"
+            (click)="onSubmit()"
+        >
+          <mat-icon>add</mat-icon>
+            Agregar Usuario
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

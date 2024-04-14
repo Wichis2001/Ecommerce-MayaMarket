@@ -45,6 +45,21 @@ export class AuthService {
                     );
   }
 
+  registrarAdministrador( nombre: string, password: string ) {
+    const url: string = `${this.baseUrl}/auth/newAdmin`;
+    const body = { nombre, password };
+
+    return this.http.post<AuthReponse>( url, body)
+                    .pipe(
+                      tap( res => {
+                        if( res.ok ) {
+                        }
+                      }),
+                      map( valide => valide.ok ),
+                      catchError( err => of( err.error.msg ))
+                    );
+  }
+
   login( nombre: string, password: string ) {
     const url: string = `${this.baseUrl}/auth/login`;
     const body = { nombre, password };
