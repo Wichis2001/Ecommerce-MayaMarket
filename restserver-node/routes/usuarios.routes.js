@@ -15,7 +15,10 @@ const { usuariosGet,
         usuariosDelete,
         aprobarUsuario,
         rechazarUsuario,
-        obtenerUsuarios} = require('../controllers/usuarios.controller');
+        obtenerUsuarios,
+        depositarQuetzales,
+        cambioQuetzalCacao,
+        cambioCacaoQuetzal} = require('../controllers/usuarios.controller');
 
 const router = Router();
 
@@ -46,6 +49,24 @@ router.put('/rechazar/:nombre', [
     validarJWT,
     validarCampos
 ], rechazarUsuario );
+
+//? Agregar Quetzales al usuario
+router.put('/depositarQuetzales', [
+    validarJWT,
+    validarCampos
+], depositarQuetzales );
+
+//?Cambiar Quetzales - Cacao
+router.put('/cambioQuetzalesCacao', [
+    validarJWT,
+    validarCampos
+], cambioQuetzalCacao );
+
+//?Cambiar Cacao - Quetzales
+router.put('/cambioCacaoQuetzales ', [
+    validarJWT,
+    validarCampos
+], cambioCacaoQuetzal );
 
 
 router.get( '/obtener', obtenerUsuarios );

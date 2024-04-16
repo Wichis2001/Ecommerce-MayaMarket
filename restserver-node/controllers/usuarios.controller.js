@@ -89,9 +89,76 @@ const obtenerUsuarios = async ( req, res = response ) => {
 
 }
 
+const depositarQuetzales = async ( req, res = response ) => {
+    const { cantidad, ...data } = req.body
 
+    const usuario = 
 
+    if( isNaN(cantidad )){
+        return res.status(400).json({
+            error: 'Error, se ha intentado realizar una consulta no numerica'
+        });
+    }
 
+    data.quetzales = data.quetzales + cantidad;
+
+    const usuario = await Usuario.findByIdAndUpdate( data.uid, data, { new: true } );
+
+    res.status( 200 ).json({
+        msg: `Se han depositado Q${ cantidad }, ahora tienes Q${ data.quetzales} en tu cuenta`,
+        usuario
+    });
+}
+
+const cambioQuetzalCacao = async ( req, res = response ) => {
+    const { cantidad, ...data } = req.body
+
+    if( isNaN(cantidad )){
+        return res.status(400).json({
+            error: 'Error, se ha intentado realizar una consulta no numerica'
+        });
+    }
+
+    if( data.quetzal < cantidad ){
+        return res.status(400).json({
+            error: 'Error, no posees la cantidad de quetzales necesarios para poder realizar la transacción'
+        });
+    }
+
+    data.cacao = data.cacao + (cantidad * 5);
+
+    const usuario = await Usuario.findByIdAndUpdate( data.uid, data, { new: true } );
+
+    res.status( 200 ).json({
+        msg: `Se han depositado C${ cantidad }, ahora tienes C${ data.quetzales} en tu cuenta`,
+        usuario
+    });
+}
+
+const cambioCacaoQuetzal = async ( req, res = response ) => {
+    const { cantidad, ...data } = req.body
+
+    if( isNaN(cantidad )){
+        return res.status(400).json({
+            error: 'Error, se ha intentado realizar una consulta no numerica'
+        });
+    }
+
+    if( data.cacao < cantidad ){
+        return res.status(400).json({
+            error: 'Error, no posees la cantidad de cacao coins necesarios para poder realizar la transacción'
+        });
+    }
+
+    data.cacao = data.cacao + (cantidad * 5);
+
+    const usuario = await Usuario.findByIdAndUpdate( data.uid, data, { new: true } );
+
+    res.status( 200 ).json({
+        msg: `Se han depositado C${ cantidad }, ahora tienes C${ data.quetzales} en tu cuenta`,
+        usuario
+    });
+}
 
 
 
@@ -103,5 +170,8 @@ module.exports = {
     usuariosDelete,
     aprobarUsuario,
     rechazarUsuario,
-    obtenerUsuarios
+    obtenerUsuarios,
+    depositarQuetzales,
+    cambioCacaoQuetzal,
+    cambioQuetzalCacao
 }

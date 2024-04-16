@@ -1,1 +1,222 @@
-<p>cartera-page works!</p>
+<h1>
+  Mi Cartera
+</h1>
+
+<mat-divider class="mb-2"></mat-divider>
+
+<div class="grid bm-8 pt-2">
+  <div class="col-4">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Moneda Nacional</mat-card-title>
+        <mat-card-subtitle>Quetzal</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-divider></mat-divider>
+
+      <mat-card-content class="mt-2">
+        <h4><strong>Caracteristicas de la moneda: </strong></h4>
+        <p>En nuestro sistema informático, el Quetzal se establece como la moneda nacional predeterminada. Esta moneda será utilizada como medio de intercambio para adquirir la moneda virtual, conocida como Cacao Coin. Los usuarios podrán realizar transacciones utilizando el Quetzal para comprar Cacao Coin, lo que les permitirá acceder a servicios y productos dentro de nuestra plataforma virtual.</p>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+
+  <div class="col-4">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Manejo de Moneda</mat-card-title>
+        <mat-card-subtitle>Quetzal</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-divider></mat-divider>
+
+      <mat-card-content class="mt-2">
+        <h4><strong>Intercambia/Adquiere la moneda: </strong></h4>
+        <p>
+          <strong>Cambio Actual</strong> Q1.00 - C5.00
+        </p>
+      </mat-card-content>
+
+      <mat-card-actions>
+
+        <mat-card-actions>
+          <div class="grid">
+
+            <div class="col-1"></div>
+
+            <div class="col-3">
+              <form [formGroup]="miFormulario"
+                    autocomplete="off"
+                    (ngSubmit)="compra()"
+                    class="formgrid grid">
+
+                <mat-form-field>
+                  <mat-label>Qty</mat-label>
+                  <input matInput
+                         type="number"
+                         required
+                         formControlName="cantidad"
+                         min="1">
+                </mat-form-field>
+              </form>
+            </div>
+
+            <div class="col-8">
+              <div class="flex justify-content-between">
+                <button mat-button
+                        mat-raised
+                        color="primary"
+                        type="submit"
+                        (click)="compra()"
+                        [disabled]="miFormulario.invalid">
+                  <mat-icon mat-icon>price_change</mat-icon>
+                    Depositar Quetzales
+                </button>
+                <span class="spacer"></span>
+                <button mat-button
+                        mat-raised
+                        color="accent"
+                        type="submit"
+                        (click)="compra()"
+                        [disabled]="miFormulario.invalid">
+                  <mat-icon mat-icon>currency_exchange</mat-icon>
+                    Comprar Cacao Coins
+                </button>
+              </div>
+            </div>
+          </div>
+        </mat-card-actions>
+      </mat-card-actions>
+    </mat-card>
+
+  </div>
+
+  <div class="col-4">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Monedero Actual</mat-card-title>
+        <mat-card-subtitle>Quetzal</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-divider></mat-divider>
+
+      <mat-card-content class="mt-2">
+        <h4><strong>Tienes en tu cuenta: </strong></h4>
+        <mat-chip-listbox>
+          <mat-chip>
+            {{ usuario.quetzal | currency: 'GTQ': 'symbol-narrow' }}
+          </mat-chip>
+        </mat-chip-listbox>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+</div>
+
+<div class="grid bm-8 pt-2">
+  <div class="col-4">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Moneda Virtual</mat-card-title>
+        <mat-card-subtitle>Cacao Coin</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-divider></mat-divider>
+
+      <mat-card-content class="mt-2">
+        <h4><strong>Caracteristicas de la moneda: </strong></h4>
+        <p>
+          En nuestro sistema, la moneda virtual Cacao Coin es el medio de intercambio exclusivo. Esta moneda se utiliza de manera prioritaria para todas las transacciones dentro de la plataforma. Sin embargo, también ofrecemos la posibilidad de intercambiar Cacao Coin por Quetzales, la moneda nacional, proporcionando a nuestros usuarios flexibilidad en sus transacciones financieras.
+        </p>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+
+  <div class="col-4">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Manejo de Moneda</mat-card-title>
+        <mat-card-subtitle>Cacao Coin</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-divider></mat-divider>
+
+      <mat-card-content class="mt-2">
+        <h4><strong>Intercambia/Adquiere la moneda: </strong></h4>
+        <p>
+          <strong>Cambio Actual</strong> C5.00 - Q1.00
+        </p>
+      </mat-card-content>
+
+      <mat-card-actions>
+
+        <mat-card-actions>
+          <div class="grid">
+
+            <div class="col-1"></div>
+
+            <div class="col-4">
+              <form [formGroup]="miFormulario"
+                    autocomplete="off"
+                    (ngSubmit)="compra()"
+                    class="formgrid grid">
+
+                <mat-form-field>
+                  <mat-label>Qty</mat-label>
+                  <input matInput
+                         type="number"
+                         required
+                         formControlName="cantidad"
+                         min="1">
+                </mat-form-field>
+              </form>
+            </div>
+            <div class="col-1"></div>
+            <div class="col-5">
+
+              <div class="flex justify-content-between">
+                <button mat-button
+                        mat-raised
+                        color="primary"
+                        type="submit"
+                        (click)="compra()"
+                        [disabled]="miFormulario.invalid">
+                  <mat-icon mat-icon>currency_exchange</mat-icon>
+                    Intercambiar a Quetzales
+                </button>
+              </div>
+            </div>
+          </div>
+        </mat-card-actions>
+      </mat-card-actions>
+    </mat-card>
+
+  </div>
+
+  <div class="col-4">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Monedero Actual</mat-card-title>
+        <mat-card-subtitle>Cacao Coin</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-divider></mat-divider>
+
+      <mat-card-content class="mt-2">
+        <h4><strong>Tienes en tu cuenta: </strong></h4>
+        <mat-chip-listbox>
+          <mat-chip>
+            {{ usuario.cacao | currency: 'C'}}
+          </mat-chip>
+        </mat-chip-listbox>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+
+</div>
+
+
+
