@@ -51,8 +51,8 @@ router.put('/rechazar/:nombre', [
 ], rechazarUsuario );
 
 //? Agregar Quetzales al usuario
-router.put('/depositarQuetzales', [
-    validarJWT,
+router.put(`/depositarQuetzales/:cantidad`, [
+    
     validarCampos
 ], depositarQuetzales );
 

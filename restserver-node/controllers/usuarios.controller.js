@@ -1,6 +1,5 @@
 const { response, request } = require('express')
 const bcryptjs = require('bcryptjs');
-
 const { Usuario } = require('../models');
 
 const usuariosGet = ((req = request, res = response) => {
@@ -90,23 +89,23 @@ const obtenerUsuarios = async ( req, res = response ) => {
 }
 
 const depositarQuetzales = async ( req, res = response ) => {
-    const { cantidad, ...data } = req.body
+    const { cantidad } = req.params
+    const { uid, ...data } = req.body
 
-    const usuario = 
-
-    if( isNaN(cantidad )){
+    if( isNaN( cantidad )){
         return res.status(400).json({
             error: 'Error, se ha intentado realizar una consulta no numerica'
         });
     }
-
-    data.quetzales = data.quetzales + cantidad;
-
-    const usuario = await Usuario.findByIdAndUpdate( data.uid, data, { new: true } );
+    const usuarioObtenido = await Usuario.findById( uid );
+    usuarioObtenido.quetzal = usuarioObtenido.quetzal + Number(cantidad);
+    // console.log( deposito )
+    const usuarioNew = await Usuario.findByIdAndUpdate( uid, usuarioObtenido, { new: true } );
+    console.log( usuarioNew )
 
     res.status( 200 ).json({
-        msg: `Se han depositado Q${ cantidad }, ahora tienes Q${ data.quetzales} en tu cuenta`,
-        usuario
+        msg: `Se han depositado Q${ cantidad }, ahora tienes Q${ usuarioNew.quetzal } en tu cuenta`,
+        usuario: usuarioNew
     });
 }
 

@@ -5,3 +5,8 @@ export interface CoinResponse {
   msg?: string;
   usuario?: Usuario;
 }
+
+export interface CoinManagment {
+  usuario: Usuario;
+  cantidad: number;
+}

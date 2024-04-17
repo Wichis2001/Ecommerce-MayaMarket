@@ -18,6 +18,10 @@ export class AuthService {
     return { ...this._usuario };
   }
 
+  set setUsuario(nuevoUsuario: Usuario) {
+    this._usuario = { ...nuevoUsuario }; // Establece el usuario con una copia del nuevo usuario
+  }
+
   constructor( private http: HttpClient ) { }
 
   registro( nombre: string, password: string ) {
