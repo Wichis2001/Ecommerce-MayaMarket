@@ -23,6 +23,7 @@ import { TarjetaDialogComponent } from './components/tarjeta-dialog/tarjeta-dial
 import { ServiciosPageComponent } from './pages/servicios-page/servicios-page.component';
 import { MisServiciosPageComponent } from './pages/mis-servicios-page/mis-servicios-page.component';
 import { CarteraPageComponent } from './pages/cartera-page/cartera-page.component';
+import { CoinDialogComponent } from './components/coin-dialog/coin-dialog.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { CarteraPageComponent } from './pages/cartera-page/cartera-page.componen
     TarjetaDialogComponent,
     ServiciosPageComponent,
     MisServiciosPageComponent,
-    CarteraPageComponent
+    CarteraPageComponent,
+    CoinDialogComponent
   ],
   imports: [
     CommonModule,

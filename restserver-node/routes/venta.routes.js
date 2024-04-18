@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 
 const { validarCampos,
         validarJWT } = require('../middlewares');
-const { crearVenta, seguimientoPedidos, top10ProductosMasVendidos, top5ClientesMasGanancias, top5ClientesMasProductosVendidos, top10ClientesMasPedidos } = require('../controllers/venta.controller');
+const { crearVenta, seguimientoPedidos, top10ProductosMasVendidos, top5ClientesMasGanancias, top5ClientesMasProductosVendidos, top10ClientesMasPedidos, generarNuevaVenta } = require('../controllers/venta.controller');
 
 
 const router = Router();
@@ -14,6 +14,12 @@ router.post('/', [
     validarJWT,
     validarCampos
 ], crearVenta );
+
+//? Crear venta - privado - cualquier persona con un token valido
+router.post('/', [
+    validarJWT,
+    validarCampos
+], generarNuevaVenta );
 
 router.get('/', [
     validarJWT,

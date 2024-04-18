@@ -57,13 +57,13 @@ router.put(`/depositarQuetzales/:cantidad`, [
 ], depositarQuetzales );
 
 //?Cambiar Quetzales - Cacao
-router.put('/cambioQuetzalesCacao', [
+router.put('/cambioQuetzalesCacao/:cantidad', [
     validarJWT,
     validarCampos
 ], cambioQuetzalCacao );
 
 //?Cambiar Cacao - Quetzales
-router.put('/cambioCacaoQuetzales ', [
+router.put('/cambioCacaoQuetzales/:cantidad', [
     validarJWT,
     validarCampos
 ], cambioCacaoQuetzal );

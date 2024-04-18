@@ -76,6 +76,17 @@ export class VentaService {
     return this.http.post<Venta>(`${ this.baseUrl }/ventas`, venta, { headers});
   }
 
+  generarNuevaVenta(){
+    const headers = new HttpHeaders()
+      .set('x-token', localStorage.getItem('token') || '' );
+    const venta: Venta = {
+      total: this.total,
+      producto: this.detalleVenta
+    }
+    console.log( venta )
+    return this.http.post<Venta>(`${ this.baseUrl }/ventas`, venta, { headers});
+  }
+
   reiniciarVariables(){
     this._total = 0;
     this._cantidad = 0;

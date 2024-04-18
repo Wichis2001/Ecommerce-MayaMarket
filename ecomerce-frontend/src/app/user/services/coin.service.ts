@@ -23,4 +23,16 @@ export class CoinService {
     return this.http.put<CoinResponse>(`${ this.baseUrl }/usuarios/depositarQuetzales/${ cantidad }`, this.authService.usuario, { headers });
   }
 
+  intercambiarCacao( cantidad:number ): Observable<CoinResponse>{
+    const headers = new HttpHeaders()
+      .set('x-token', localStorage.getItem('token') || '' );
+    return this.http.put<CoinResponse>(`${ this.baseUrl }/usuarios/cambioQuetzalesCacao/${ cantidad }`, this.authService.usuario, { headers });
+  }
+
+  depositarUsuarioQuetzal( cantidad:number ): Observable<CoinResponse>{
+    const headers = new HttpHeaders()
+      .set('x-token', localStorage.getItem('token') || '' );
+    return this.http.put<CoinResponse>(`${ this.baseUrl }/usuarios/cambioCacaoQuetzales/${ cantidad }`, this.authService.usuario, { headers });
+  }
+
 }

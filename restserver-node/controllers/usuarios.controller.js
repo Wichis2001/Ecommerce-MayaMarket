@@ -101,7 +101,6 @@ const depositarQuetzales = async ( req, res = response ) => {
     usuarioObtenido.quetzal = usuarioObtenido.quetzal + Number(cantidad);
     // console.log( deposito )
     const usuarioNew = await Usuario.findByIdAndUpdate( uid, usuarioObtenido, { new: true } );
-    console.log( usuarioNew )
 
     res.status( 200 ).json({
         msg: `Se han depositado Q${ cantidad }, ahora tienes Q${ usuarioNew.quetzal } en tu cuenta`,
@@ -110,7 +109,8 @@ const depositarQuetzales = async ( req, res = response ) => {
 }
 
 const cambioQuetzalCacao = async ( req, res = response ) => {
-    const { cantidad, ...data } = req.body
+    const { cantidad } = req.params
+    const { uid, ...data } = req.body
 
     if( isNaN(cantidad )){
         return res.status(400).json({
@@ -124,18 +124,21 @@ const cambioQuetzalCacao = async ( req, res = response ) => {
         });
     }
 
-    data.cacao = data.cacao + (cantidad * 5);
+    const usuarioObtenido = await Usuario.findById( uid );
+    usuarioObtenido.cacao = usuarioObtenido.cacao + (Number(cantidad) * 5);
+    usuarioObtenido.quetzal = usuarioObtenido.quetzal - Number(cantidad)
 
-    const usuario = await Usuario.findByIdAndUpdate( data.uid, data, { new: true } );
+    const usuarioNew = await Usuario.findByIdAndUpdate( uid, usuarioObtenido, { new: true } );
 
     res.status( 200 ).json({
-        msg: `Se han depositado C${ cantidad }, ahora tienes C${ data.quetzales} en tu cuenta`,
-        usuario
+        msg: `Se han depositado C${ cantidad }, ahora tienes C${ usuarioNew.cacao} en tu cuenta`,
+        usuario: usuarioNew
     });
 }
 
 const cambioCacaoQuetzal = async ( req, res = response ) => {
-    const { cantidad, ...data } = req.body
+    const { cantidad } = req.params
+    const { uid, ...data } = req.body
 
     if( isNaN(cantidad )){
         return res.status(400).json({
@@ -145,21 +148,21 @@ const cambioCacaoQuetzal = async ( req, res = response ) => {
 
     if( data.cacao < cantidad ){
         return res.status(400).json({
-            error: 'Error, no posees la cantidad de cacao coins necesarios para poder realizar la transacción'
+            error: 'Error, no posees la cantidad de CacaoCoin necesarios para poder realizar la transacción'
         });
     }
 
-    data.cacao = data.cacao + (cantidad * 5);
+    const usuarioObtenido = await Usuario.findById( uid );
+    usuarioObtenido.cacao = usuarioObtenido.cacao - (Number(cantidad));
+    usuarioObtenido.quetzal = usuarioObtenido.quetzal + (Number(cantidad)/5)
 
-    const usuario = await Usuario.findByIdAndUpdate( data.uid, data, { new: true } );
+    const usuarioNew = await Usuario.findByIdAndUpdate( uid, usuarioObtenido, { new: true } );
 
     res.status( 200 ).json({
-        msg: `Se han depositado C${ cantidad }, ahora tienes C${ data.quetzales} en tu cuenta`,
-        usuario
+        msg: `Se han depositado Q${ cantidad/5 }, ahora tienes Q${ usuarioNew.quetzal} en tu cuenta`,
+        usuario: usuarioNew
     });
 }
-
-
 
 module.exports = {
     usuariosGet,

@@ -39,6 +39,40 @@ const crearVenta = async ( req, res = response ) => {
 
 }
 
+const generarNuevaVenta = async ( req, res = response ) => {
+  try{
+      const { estado, fecha, fecha_entrega, usuario_comprador, producto, cantidad, ...body } = req.body;
+
+      //!Generar Data que se va a almacenar
+      const data = {
+          producto,
+          ...body,
+          usuario_comprador: req.usuario._id,
+      };
+
+      const productoElegido = await Producto.findById( producto._id );
+      productoElegido.existencia = productoElegido.existencia - cantidad;
+      if( productoElegido.existencia === 0 ){
+            productoElegido.estado = false;
+      }
+      await productoElegido.save();
+
+      const venta = new Venta( data )
+
+      //?GuardarDB
+
+      await venta.save();
+
+      res.status( 201 ).json( venta );
+  } catch( err ){
+      console.log( err )
+      res.status( 500 ).json({
+          err: 'Existe un error al ejecutar la consulta en el servidor'
+      });
+  }
+
+}
+
 const seguimientoPedidos = async ( req, res = response ) => {
     const query = { usuario_comprador:  req.usuario };
 
@@ -355,6 +389,7 @@ const top10ProductosMasVendidos = async (req, res = response) => {
 module.exports = {
     crearVenta,
     seguimientoPedidos,
+    generarNuevaVenta,
     top10ProductosMasVendidos,
     top5ClientesMasGanancias,
     top5ClientesMasProductosVendidos,
