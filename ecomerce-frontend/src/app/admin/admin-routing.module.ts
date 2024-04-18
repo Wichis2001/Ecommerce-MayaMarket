@@ -12,6 +12,7 @@ import { ClientesMasServiciosAsignadosComponent } from './pages/clientes-mas-ser
 import { ClientesMasServiciosOfrecidosComponent } from './pages/clientes-mas-servicios-ofrecidos/clientes-mas-servicios-ofrecidos.component';
 import { IngresosPageComponent } from './pages/ingresos-page/ingresos-page.component';
 import { ReporteProductosComponent } from './pages/reporte-productos/reporte-productos.component';
+import { IngresosServiciosPageComponent } from './pages/ingresos-servicios-page/ingresos-servicios-page.component';
 
 const routes: Routes = [
   {
@@ -53,6 +54,10 @@ const routes: Routes = [
       {
         path: 'ingresos',
         component: IngresosPageComponent
+      },
+      {
+        path: 'ingresos-servicios',
+        component: IngresosServiciosPageComponent
       },
       {
         path: 'reporte-productos',

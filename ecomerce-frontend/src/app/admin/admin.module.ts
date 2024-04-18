@@ -18,6 +18,8 @@ import { ClientesMasServiciosAsignadosComponent } from './pages/clientes-mas-ser
 import { ReporteProductosComponent } from './pages/reporte-productos/reporte-productos.component';
 import { UserCardComponent } from './components/user-card/user-card.component';
 import { AgregarConfirmComponent } from './components/agregar-confirm/agregar-confirm.component';
+import { IngresosServiciosPageComponent } from './pages/ingresos-servicios-page/ingresos-servicios-page.component';
+import { IngresoServicioCardComponent } from './components/ingreso-servicio-card/ingreso-servicio-card.component';
 
 
 
@@ -37,6 +39,8 @@ import { AgregarConfirmComponent } from './components/agregar-confirm/agregar-co
     ReporteProductosComponent,
     UserCardComponent,
     AgregarConfirmComponent,
+    IngresosServiciosPageComponent,
+    IngresoServicioCardComponent,
   ],
   imports: [
     CommonModule,

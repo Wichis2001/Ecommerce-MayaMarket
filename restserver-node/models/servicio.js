@@ -31,6 +31,11 @@ const ServicioSchema = Schema({
         type: Boolean,
         required: true,
         default: false
+    },
+    rechazado: {
+        type: Boolean,
+        required: true,
+        default: false
     }
 });
 

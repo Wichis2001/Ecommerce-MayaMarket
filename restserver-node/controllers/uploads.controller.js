@@ -5,7 +5,8 @@ const { response } = require('express');
 
 const { subirArchivo } = require('../helpers');
 const { Usuario,
-        Producto } = require('../models');
+        Producto,
+        Servicio } = require('../models');
 
 const cargarArchivo = async ( req, res = response ) => {
 
@@ -36,6 +37,14 @@ const actualizarImagen = async ( req, res = response ) => {
         }
 
       break;
+    case 'servicios':
+
+      modelo = await Servicio.findById( id );
+      if( !modelo ){
+        return res.status( 400 ).json({ msg: `No existe un servicio con el id: ${ id }`, ok: false })
+      }
+
+    break;
 
     default:
       return res.status(500).json({ msg: 'Se me olvido validar esta colección', ok: false });
@@ -83,6 +92,15 @@ const mostrarImagen = async ( req, res = response ) => {
         }
 
       break;
+
+      case 'servicios':
+
+      modelo = await Servicio.findById( id );
+      if( !modelo ){
+        return res.status( 400 ).json({ msg: `No existe un servicio con el id: ${ id }`, ok: false})
+      }
+
+    break;
 
     default:
       return res.status(500).json({ msg: 'Se me olvido validar esta colección', ok: false });

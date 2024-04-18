@@ -4,6 +4,7 @@ import { Observable, catchError, map, of, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Producto } from '../interfaces/producto.intarface';
 import { FileUploadResponse } from '../interfaces/venta.intarface';
+import { Servicio } from '../interfaces/servicio.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,23 @@ export class FileUploadService {
                       tap( res => {
                         if( res.ok ) {
                           this._nombreArchivo = `${ environment.baseUrl }/uploads/productos/${ producto._id }`;
+                        }
+                      }),
+                      map( valide => valide.ok ),
+                      catchError( err => of( err.error.msg ))
+                    );
+  }
+
+  actualizarImagenServicio( servicio: Servicio, archivo: File ) {
+    const url: string = `${ this.baseUrl }/uploads/servicios/${ servicio._id }`;
+    const formData = new FormData();
+    formData.append('archivo', archivo);
+
+    return this.http.put<FileUploadResponse>( url, formData )
+                    .pipe(
+                      tap( res => {
+                        if( res.ok ) {
+                          this._nombreArchivo = `${ environment.baseUrl }/uploads/servicios/${ servicio._id }`;
                         }
                       }),
                       map( valide => valide.ok ),

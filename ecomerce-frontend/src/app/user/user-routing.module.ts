@@ -25,6 +25,10 @@ const routes: Routes = [
         component: ServiciosPageComponent
       },
       {
+        path: 'services-edit/:id',
+        component: ServiciosPageComponent
+      },
+      {
         path: 'cartera',
         component: CarteraPageComponent
       },

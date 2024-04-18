@@ -87,6 +87,7 @@ const actualizarProducto = async ( req, res = response ) => {
 
     }
     data.usuario= req.usuario._id;
+    data.aprobado = false;
     data.rechazado = false;
 
     const producto = await Producto.findByIdAndUpdate( id, data, { new: true } );

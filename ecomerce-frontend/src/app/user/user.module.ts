@@ -20,6 +20,11 @@ import { ServiciosPageComponent } from './pages/servicios-page/servicios-page.co
 import { MisServiciosPageComponent } from './pages/mis-servicios-page/mis-servicios-page.component';
 import { CarteraPageComponent } from './pages/cartera-page/cartera-page.component';
 import { CoinDialogComponent } from './components/coin-dialog/coin-dialog.component';
+import { ServicioImagenPipe } from './pipes/servicio-imagen.pipe';
+import { CardServiceComponent } from './components/card-service/card-service.component';
+import { CardServiceSellComponent } from './components/card-service-sell/card-service-sell.component';
+import { ListServicesPageComponent } from './pages/list-services-page/list-services-page.component';
+import { ServicesOptadosPageComponent } from './pages/services-optados-page/services-optados-page.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +42,12 @@ import { CoinDialogComponent } from './components/coin-dialog/coin-dialog.compon
     ServiciosPageComponent,
     MisServiciosPageComponent,
     CarteraPageComponent,
-    CoinDialogComponent
+    CoinDialogComponent,
+    ServicioImagenPipe,
+    CardServiceComponent,
+    CardServiceSellComponent,
+    ListServicesPageComponent,
+    ServicesOptadosPageComponent
   ],
   imports: [
     CommonModule,

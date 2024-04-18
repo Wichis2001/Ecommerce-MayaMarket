@@ -29,6 +29,11 @@ export class LayoutPageComponent {
       url: './ingresos'
     },
     {
+      label: 'Aprobar Servicios',
+      icon: 'diversity_3',
+      url: './ingresos-servicios'
+    },
+    {
       label: 'Reportes Productos',
       icon: 'report',
       url: './reporte-productos'

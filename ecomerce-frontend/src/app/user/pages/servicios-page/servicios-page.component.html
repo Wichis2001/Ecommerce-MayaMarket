@@ -1,7 +1,7 @@
 <h1>
-  {{ currentServicio._id ? 'Editar' : 'Agregar' }}
+  {{ currentService._id ? 'Editar' : 'Agregar' }}
   servicio
-  <small *ngIf="currentServicio._id">{{ currentServicio.nombre | titlecase }}</small>
+  <small *ngIf="currentService._id">{{ currentService.nombre | titlecase }}</small>
 </h1>
 
 <mat-divider class="mb-2"></mat-divider>
@@ -35,7 +35,7 @@
               type="number"
               required
               min="1"
-              formControlName="precio"
+              formControlName="pago"
             />
           </mat-form-field>
 
@@ -49,19 +49,6 @@
                       formControlName="descripcion">
             </textarea>
 
-          </mat-form-field>
-
-          <mat-form-field class="col-12">
-            <mat-label>Categoria</mat-label>
-            <mat-select
-              formControlName="categoria"
-              required
-            >
-              <mat-option *ngFor="let categoria of categorias"
-                [value]="categoria._id">
-                {{ categoria.nombre }}
-              </mat-option>
-            </mat-select>
           </mat-form-field>
 
 
@@ -83,7 +70,7 @@
 
         <div class="flex justify-content-between">
           <button
-            *ngIf="currentProducto._id"
+            *ngIf="currentService._id"
             (click)="onDeleteProducto()"
             mat-flat-button
             color="warn"
@@ -112,7 +99,7 @@
 
     <mat-card class="justify-content-center">
 
-      <img *ngIf="!imgTemp" [src]=" productoTmp | productoImagen" mat-card-image>
+      <img *ngIf="!imgTemp" [src]=" serviceTmp | servicioImagen" mat-card-image>
       <img *ngIf="imgTemp" [src]="imgTemp" mat-card-image>
     </mat-card>
 

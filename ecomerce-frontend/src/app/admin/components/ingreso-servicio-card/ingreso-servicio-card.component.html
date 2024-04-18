@@ -1,0 +1,42 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ service.nombre | titlecase }}</mat-card-title>
+    <ng-template #pocasUnidades>
+      <mat-card-subtitle style="color: red">Pocas unidades</mat-card-subtitle>
+    </ng-template>
+  </mat-card-header>
+
+  <img mat-card-image [src]="imagenUrl" [alt]="service.nombre">
+
+  <mat-card-content class="mt-2">
+    <h4><strong>Proveedor</strong> {{ service.usuario.nombre | titlecase }}</h4>
+    <p>
+      <strong>Nombre</strong> {{ service.nombre }}
+      <br>
+      <strong>Pago</strong> {{ service.pago | currency: 'C': 'symbol-narrow' }}
+      <br>
+      <strong>Descripción</strong> {{ service.descripcion }}
+      <br>
+    </p>
+  </mat-card-content>
+
+  <mat-divider></mat-divider>
+
+  <mat-card-actions>
+
+    <button mat-button
+            mat-raised
+            (click)="aprobar()">
+      <mat-icon>check_circle</mat-icon>
+        Aprobar
+    </button>
+    <div class="spacer"></div>
+    <button mat-button
+            mat-raised
+            (click)="rechazar()">
+      <mat-icon>cancel</mat-icon>
+        Denegar
+    </button>
+  </mat-card-actions>
+
+</mat-card>

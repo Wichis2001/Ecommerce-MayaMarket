@@ -22,8 +22,6 @@ import { Servicio } from '../../interfaces/servicio.interface';
   ]
 })
 export class ServiciosPageComponent {
-  @ViewChild('categoriaSelect') categoriaSelect!: MatSelect;
-  public categorias!: TipoCategoria[];
   public imagenSubir!: File;
   public imgTemp: any = null;
   public serviceTmp!: Servicio;
@@ -54,19 +52,19 @@ export class ServiciosPageComponent {
   ngOnInit(): void {
 
     this.serviceTmp = this.currentService;
-    if ( !this.router.url.includes('edit') ) return;
+    if ( !this.router.url.includes('services-edit') ) return;
 
     this.activatedRoute.params
       .pipe(
-        switchMap( ({ id }) => this.productoService.getProductoByID( id ) ),
-      ).subscribe( producto => {
+        switchMap( ({ id }) => this.servicioService.getServicioByID( id ) ),
+      ).subscribe( servicio => {
 
-        if ( !producto ) {
+        if ( !servicio ) {
           return this.router.navigateByUrl('/sales');
         }
-        this.productoTmp = producto;
+        this.serviceTmp = servicio;
 
-        this.miFormulario.reset( producto );
+        this.miFormulario.reset( servicio );
 
         return;
 
@@ -77,22 +75,22 @@ export class ServiciosPageComponent {
   onSubmit() {
     if ( this.miFormulario.invalid ) return;
 
-    if ( this.currentProducto._id ) {
-      this.productoService.updateProducto( this.currentProducto )
-                            .subscribe( producto => {
-                              this.actualizarImagen( producto );
-                              this.showSnackbar( `${ producto.nombre } actualizado correctamente!`)
+    if ( this.currentService._id ) {
+      this.servicioService.updateServicio( this.currentService )
+                            .subscribe( servicio => {
+                              this.actualizarImagen( servicio );
+                              this.showSnackbar( `${ servicio.nombre } actualizado correctamente!`)
                             });
       return;
     }
 
-    this.productoService.addProducto( this.currentProducto )
-      .subscribe( producto => {
+    this.servicioService.addServicio( this.currentService )
+      .subscribe( servicio => {
        // TODO: mostrar snackbar, y navegar a /heroes/edit/ hero.id
-       this.actualizarImagen( producto );
-       this.router.navigate(['/user/edit', producto._id ]);
+       this.actualizarImagen( servicio );
+       this.router.navigate(['/user/services-edit', servicio._id ]);
        console.log('NOS FUIMOS -------------------')
-       this.showSnackbar(`${ producto.nombre } creado con éxito!`);
+       this.showSnackbar(`${ servicio.nombre } creado con éxito!`);
 
       });
 
@@ -100,8 +98,7 @@ export class ServiciosPageComponent {
   }
 
   onDeleteProducto() {
-    console.log( this.currentProducto._id )
-    if ( !this.currentProducto._id ) throw Error('Producto id is required');
+    if ( !this.currentService._id ) throw Error('Producto id is required');
 
     const dialogRef = this.dialog.open( ConfirmDialogComponent, {
       data: this.miFormulario.value
@@ -110,7 +107,7 @@ export class ServiciosPageComponent {
     dialogRef.afterClosed()
       .pipe(
         filter( (result: boolean) => result ),
-        switchMap( () => this.productoService.deleteProductoById( this.currentProducto._id )),
+        switchMap( () => this.servicioService.deleteServicioById( this.currentService._id )),
         filter( (wasDeleted: boolean) => wasDeleted ),
       )
       .subscribe(() => {
@@ -120,12 +117,12 @@ export class ServiciosPageComponent {
 
   }
 
-  actualizarImagen( producto: Producto ){
+  actualizarImagen( servicio: Servicio ){
     if( this.imgTemp ){
-      this.fileService.actualizarImagen( producto, this.imagenSubir )
+      this.fileService.actualizarImagenServicio( servicio, this.imagenSubir )
                                   .subscribe( ok => {
                                     if( ok === true ){
-                                      this.productoTmp.img = this.fileService.nombreArchivo;
+                                      this.serviceTmp.img = this.fileService.nombreArchivo;
 
                                     }else{
 
@@ -171,17 +168,5 @@ export class ServiciosPageComponent {
       this.imgTemp = null;
     }
 
-  }
-
-  categoriaValida(control: AbstractControl): ValidationErrors | null {
-    const categoriaId = control.value;
-    for (let i = 0; i < this.categorias.length; i++) {
-      if (!this.categorias[i]._id.includes(categoriaId)) {
-        return { categoriaInvalida: true };
-      }
-
-    }
-
-    return null;
   }
 }
