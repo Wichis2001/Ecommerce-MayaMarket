@@ -21,7 +21,7 @@ import { MatSelect } from '@angular/material/select';
   `]
 })
 export class AddPageComponent implements OnInit {
-  @ViewChild('categoriaSelect') categoriaSelect!: MatSelect;
+  @ViewChild('estado_selected') categoriaSelect!: MatSelect;
   public categorias!: TipoCategoria[];
   public imagenSubir!: File;
   public imgTemp: any = null;

@@ -1,7 +1,7 @@
 <h1>
-  {{ currentProducto._id ? 'Editar' : 'Agregar' }}
+  {{ currentServicio._id ? 'Editar' : 'Agregar' }}
   servicio
-  <small *ngIf="currentProducto._id">{{ currentProducto.nombre | titlecase }}</small>
+  <small *ngIf="currentServicio._id">{{ currentServicio.nombre | titlecase }}</small>
 </h1>
 
 <mat-divider class="mb-2"></mat-divider>
@@ -49,6 +49,19 @@
                       formControlName="descripcion">
             </textarea>
 
+          </mat-form-field>
+
+          <mat-form-field class="col-12">
+            <mat-label>Categoria</mat-label>
+            <mat-select
+              formControlName="categoria"
+              required
+            >
+              <mat-option *ngFor="let categoria of categorias"
+                [value]="categoria._id">
+                {{ categoria.nombre }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
 
 

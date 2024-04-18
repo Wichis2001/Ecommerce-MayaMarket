@@ -5,10 +5,8 @@ const { validarCampos,
         validarJWT,
         esCommonRole} = require('../middlewares');
 
-const { existeCategoria,
+const { existeServicio,
         validarPrecio,
-        validarExistencia,
-        existeProducto,
         existeUsuarioById} = require('../helpers');
 
 const { crearProducto,
@@ -21,6 +19,7 @@ const { crearProducto,
         aprobarProducto,
         rechazarProducto,
         clientesProductosOfreciendoVentas} = require('../controllers/producto.controller');
+const { crearServicio } = require('../controllers/servicio.controller');
 
 const router = Router();
 
@@ -42,7 +41,7 @@ router.get( '/venta/:id', [
 
 router.get('/:id', [
     check('id', 'No es un ID válido').isMongoId(),
-    check('id').custom( existeProducto ),
+    check('id').custom( existeServicio ),
     validarCampos
 ], obtenerProducto );
 
@@ -51,18 +50,15 @@ router.post('/', [
     validarJWT,
     check('nombre', 'El nombre es obligatorio').not().isEmpty(),
     check('descripcion', 'La descripción es obligatoria').not().isEmpty(),
-    check('precio', 'El precio no es valido').isFloat().custom( validarPrecio ),
-    check('existencia', 'La existencia ingresada no es valida').isInt().custom( validarExistencia ),
-    check('categoria', 'No es un ID válido').isMongoId(),
-    check('categoria').custom( existeCategoria ),
+    check('pago', 'El precio no es valido').isFloat().custom( validarPrecio ),
     validarCampos
-], crearProducto );
+], crearServicio );
 
 //? Actualizar - privado - cualquiera con un token valido
 router.put('/aprobar/:id', [
     validarJWT,
     check('id', 'No es un ID válido').isMongoId(),
-    check('id').custom( existeProducto ),
+    check('id').custom( existeServicio ),
     validarCampos
 ], aprobarProducto );
 
@@ -70,7 +66,7 @@ router.put('/aprobar/:id', [
 router.put('/rechazar/:id', [
     validarJWT,
     check('id', 'No es un ID válido').isMongoId(),
-    check('id').custom( existeProducto ),
+    check('id').custom( existeServicio ),
     validarCampos
 ], rechazarProducto );
 
@@ -78,7 +74,7 @@ router.put('/rechazar/:id', [
 router.put('/:id', [
     validarJWT,
     check('id', 'No es un ID válido').isMongoId(),
-    check('id').custom( existeProducto ),
+    check('id').custom( existeServicio ),
     validarCampos
 ], actualizarProducto );
 
@@ -87,7 +83,7 @@ router.delete('/:id', [
     validarJWT,
     esCommonRole,
     check('id', 'No es un ID válido').isMongoId(),
-    check('id').custom( existeProducto ),
+    check('id').custom( existeServicio ),
     validarCampos
 ], borrarProducto);
 

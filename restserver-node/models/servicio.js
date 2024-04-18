@@ -22,12 +22,6 @@ const ServicioSchema = Schema({
         ref: 'Usuario',
         required: [ true, 'El usuario al que está asociado es obligatorio' ]
     },
-    estado: {
-        type: String,
-        required: [ true, 'El estado de la venta es obligatorio' ],
-        enum: [ 'EN_ESPERA', 'EN_EJECUCION', 'CULMINADO'],
-        default: 'EN_ESPERA'
-    },
     activo: {
         type: Boolean,
         required: true,

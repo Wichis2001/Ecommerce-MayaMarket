@@ -18,7 +18,8 @@ class Server{
             tarjetas    : '/api/tarjetas',
             usuarios    : '/api/usuarios',
             uploads     : '/api/uploads',
-            ventas      : '/api/ventas'
+            ventas      : '/api/ventas',
+            servicios   : '/api/servicios'
         }
 
         //!Middlewares Funciones que se ejecutan cuando levantemos el servidor
@@ -62,6 +63,7 @@ class Server{
         this.app.use( this.paths.uploads, require('../routes/uploads.routes') );
         this.app.use( this.paths.usuarios, require('../routes/usuarios.routes') );
         this.app.use( this.paths.ventas, require('../routes/venta.routes') );
+        this.app.use( this.paths.servicios, require('../routes/servicios.routes') );
     };
 
     listen(){

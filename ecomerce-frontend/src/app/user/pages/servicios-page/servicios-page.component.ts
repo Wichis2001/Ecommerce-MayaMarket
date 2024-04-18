@@ -3,7 +3,6 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, MinValidator, Val
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProductoService } from '../../services/producto.service';
 import { Categoria, Producto, TipoCategoria } from '../../interfaces/producto.intarface';
 import { filter, switchMap } from 'rxjs';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
@@ -12,6 +11,8 @@ import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-
 import Swal from 'sweetalert2';
 import { FileUploadService } from '../../services/file-upload.service';
 import { MatSelect } from '@angular/material/select';
+import { ServicioService } from '../../services/servicio.service';
+import { Servicio } from '../../interfaces/servicio.interface';
 
 
 @Component({
@@ -25,19 +26,19 @@ export class ServiciosPageComponent {
   public categorias!: TipoCategoria[];
   public imagenSubir!: File;
   public imgTemp: any = null;
-  public productoTmp!: Producto;
+  public serviceTmp!: Servicio;
 
 
   miFormulario: FormGroup = this.fb.group({
           _id:          [''],
           nombre:       ['', [Validators.required, Validators.minLength(4)]],
           descripcion:  ['', [Validators.required, Validators.minLength(10)]],
-          precio:       new FormControl<number>(1, {
+          pago:         new FormControl<number>(1, {
                             validators: [Validators.required, Validators.min(1)]
-                        })
+                        }),
   });
 
-  constructor( private productoService: ProductoService,
+  constructor( private servicioService: ServicioService,
                private activatedRoute: ActivatedRoute,
                private router: Router,
                private snackbar: MatSnackBar,
@@ -45,27 +46,14 @@ export class ServiciosPageComponent {
                private fb: FormBuilder,
                private fileService: FileUploadService) {}
 
-  get currentProducto(): Producto {
-    const producto = this.miFormulario.value as Producto;
-    return producto;
+  get currentService(): Servicio {
+    const servicio = this.miFormulario.value as Servicio;
+    return servicio;
   }
 
   ngOnInit(): void {
 
-    this.productoService.getCategorias().subscribe(categorias => {
-      this.categorias = categorias;
-
-      if (this.productoTmp.categoria) {
-        const categoriaSeleccionada = this.categorias.find(
-          categoria => categoria._id === this.productoTmp.categoria._id
-        );
-        if (categoriaSeleccionada) {
-          this.miFormulario.get('categoria')?.setValue(categoriaSeleccionada);
-        }
-      }
-    });
-
-    this.productoTmp = this.currentProducto;
+    this.serviceTmp = this.currentService;
     if ( !this.router.url.includes('edit') ) return;
 
     this.activatedRoute.params
@@ -79,14 +67,6 @@ export class ServiciosPageComponent {
         this.productoTmp = producto;
 
         this.miFormulario.reset( producto );
-
-        if ( this.productoTmp.categoria ) {
-          const categoriaSeleccionada = this.categorias.find(
-                  categoria => categoria._id === this.productoTmp.categoria._id );
-          if ( categoriaSeleccionada ) {
-            this.miFormulario.get('categoria')?.setValue(categoriaSeleccionada._id);
-          }
-        }
 
         return;
 
@@ -106,7 +86,15 @@ export class ServiciosPageComponent {
       return;
     }
 
-    this.showSnackbar(`Programador creado con éxito!`);
+    this.productoService.addProducto( this.currentProducto )
+      .subscribe( producto => {
+       // TODO: mostrar snackbar, y navegar a /heroes/edit/ hero.id
+       this.actualizarImagen( producto );
+       this.router.navigate(['/user/edit', producto._id ]);
+       console.log('NOS FUIMOS -------------------')
+       this.showSnackbar(`${ producto.nombre } creado con éxito!`);
+
+      });
 
 
   }

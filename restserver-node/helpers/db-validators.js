@@ -1,7 +1,8 @@
 const { Role,
         Categoria,
         Producto,
-        Usuario } = require('../models')
+        Usuario,
+        Servicio } = require('../models')
 
 const esRolValido = async ( rol = '' ) => {
     const existeRol = await Role.findOne( { rol });
@@ -55,6 +56,15 @@ const existeProducto = async( id = '' ) => {
     return true;
 }
 
+const existeServicio = async( id = '' ) => {
+    const servicioExistente = await Servicio.findById( id );
+    if( !servicioExistente ){
+        throw new Error(`El id no pertence a ningun servicio ${ id }`)
+    }
+
+    return true;
+}
+
 const validarPrecio = ( precio = 0 ) => {
     if( precio <= 0 ){
         throw new Error('El precio ingresado debe de ser mayor a 0')
@@ -79,5 +89,6 @@ module.exports = {
     existeUsuarioById,
     validarExistencia,
     validarPrecio,
-    usernameExiste
+    usernameExiste,
+    existeServicio
 }
