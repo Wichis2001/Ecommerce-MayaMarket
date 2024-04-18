@@ -12,7 +12,7 @@
   <mat-card-content class="mt-2">
     <h4><strong>Proveedor</strong> {{ producto.usuario.nombre | titlecase }}</h4>
     <p>
-      <strong>Precio</strong> {{ producto.precio | currency: 'USD': 'symbol-narrow' }}
+      <strong>Precio</strong> {{ producto.precio | currency: 'C': 'symbol-narrow' }}
       <br>
       <strong>Existencia</strong> {{ producto.existencia }} Unidades
       <br>

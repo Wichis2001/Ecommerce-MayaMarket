@@ -1,3 +1,4 @@
+import { Usuario } from "src/app/auth/interfaces/interfaces";
 import { Producto } from "./producto.intarface";
 
 export interface Venta {
@@ -6,13 +7,8 @@ export interface Venta {
   fecha_entrega?:      Date;
   usuario_comprador?: UsuarioVenta;
   total:              number;
-  productos:          DetalleVenta[];
-}
-
-export interface DetalleVenta {
-  producto:     Producto;
-  sub_total:    number;
-  cantidad:     number;
+  producto:           Producto;
+  cantidad:           number;
 }
 
 export interface UsuarioVenta {
@@ -28,4 +24,11 @@ export interface FileUploadResponse {
   nombreArchivo?:   string;
   msg           :   string;
   ok            :   boolean
+}
+
+export interface VentaResponse {
+  error?: string;
+  msg?: string;
+  usuario?: Usuario;
+  ok?: boolean
 }

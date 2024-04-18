@@ -16,7 +16,7 @@ router.post('/', [
 ], crearVenta );
 
 //? Crear venta - privado - cualquier persona con un token valido
-router.post('/', [
+router.post('/vender', [
     validarJWT,
     validarCampos
 ], generarNuevaVenta );

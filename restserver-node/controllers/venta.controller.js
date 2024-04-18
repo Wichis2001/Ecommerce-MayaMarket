@@ -2,6 +2,7 @@ const moment = require('moment');
 
 const { response } = require("express");
 const { Producto, Venta } = require('../models');
+const { Usuario } = require('../models');
 
 const crearVenta = async ( req, res = response ) => {
     try{
@@ -46,16 +47,16 @@ const generarNuevaVenta = async ( req, res = response ) => {
       //!Generar Data que se va a almacenar
       const data = {
           producto,
+          cantidad,
           ...body,
           usuario_comprador: req.usuario._id,
       };
 
-      const productoElegido = await Producto.findById( producto._id );
-      productoElegido.existencia = productoElegido.existencia - cantidad;
-      if( productoElegido.existencia === 0 ){
-            productoElegido.estado = false;
+      producto.existencia = producto.existencia - Number( cantidad );
+      if( producto.existencia === 0 ){
+        producto.estado = false;
       }
-      await productoElegido.save();
+      const productoRecargado = await Producto.findByIdAndUpdate( producto._id, producto, { new: true } );
 
       const venta = new Venta( data )
 
@@ -63,11 +64,19 @@ const generarNuevaVenta = async ( req, res = response ) => {
 
       await venta.save();
 
-      res.status( 201 ).json( venta );
+      const usuarioObtenido = await Usuario.findById( data.usuario_comprador );
+      console.log( usuarioObtenido )
+      usuarioObtenido.cacao = usuarioObtenido.cacao - (Number(data.total));
+      const usuarioNew = await Usuario.findByIdAndUpdate( data.usuario_comprador, usuarioObtenido, { new: true } );
+
+      res.status( 201 ).json({
+        msg: 'Compra realizada con éxito',
+        usuario: usuarioNew
+      });
   } catch( err ){
       console.log( err )
       res.status( 500 ).json({
-          err: 'Existe un error al ejecutar la consulta en el servidor'
+          error: 'Existe un error al ejecutar la consulta en el servidor'
       });
   }
 

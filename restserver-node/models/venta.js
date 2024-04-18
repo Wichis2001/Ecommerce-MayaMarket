@@ -33,7 +33,6 @@ const VentaSchema = Schema({
         type: Number,
         required: [ true, 'La cantidad a adquirir es obligatoria']
     }
-    
 });
 
 module.exports = model( 'Venta', VentaSchema );

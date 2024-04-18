@@ -2,10 +2,15 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Producto } from '../../interfaces/producto.intarface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductoService } from '../../services/producto.service';
-import { Observable } from 'rxjs';
+import { filter, Observable } from 'rxjs';
 import { VentaService } from '../../services/venta.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { Usuario } from 'src/app/auth/interfaces/interfaces';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { CoinDialogComponent } from '../coin-dialog/coin-dialog.component';
+import Swal from "sweetalert2";
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -22,10 +27,17 @@ export class CardComponent implements OnInit {
   });
 
   imagenUrl: string = '';
-  constructor( private fb: FormBuilder,
-               private snackbar: MatSnackBar,
-               private productoService: ProductoService,
-               private ventasService: VentaService ){}
+  usuario:Usuario = this.authService.usuario;
+
+  constructor(
+    private productoService: ProductoService,
+    private router: Router,
+    private fb: FormBuilder,
+    private ventasService: VentaService,
+    private snackbar: MatSnackBar,
+    private dialog: MatDialog,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     if ( !this.producto ) throw Error('Producto property is required');
@@ -45,8 +57,36 @@ export class CardComponent implements OnInit {
   agregar(): void {
     const existenciaLlevar = this.miFormulario.get('existenciaLlevar')?.value;
     const subTotal = this.producto.precio * existenciaLlevar
-    this.ventasService.agregarDetalleVenta( this.producto, subTotal, existenciaLlevar );
-    this.showSnackbar(`${ this.producto.nombre } agregar correctamente`)
+    const dialogRef = this.dialog.open( CoinDialogComponent, {
+      data: `¿Estás seguro de querer comprar ${ existenciaLlevar } unidades de ${this.producto.nombre} a un total de C${subTotal}?`
+    });
+    dialogRef.afterClosed()
+                .pipe(
+                  filter( (result: boolean) => result ),
+                )
+                .subscribe(() => {
+                  if( this.usuario.cacao < subTotal ){
+                    Swal.fire( 'Error', `No cuentas con el dinero necesario para poder realizar está transacción`, 'error')
+                    this.miFormulario.reset()
+                  } else{
+
+                    this.ventasService.generarNuevaVenta( subTotal, this.producto, existenciaLlevar ).subscribe( res => {
+                                                            if( res?.error !== undefined){
+                                                              this.showSnackbar( res.error )
+                                                            } else {
+                                                              this.usuario.cacao = res.usuario!.cacao
+                                                              this.authService.setUsuario = res.usuario!;
+                                                              this.miFormulario.reset();
+                                                              this.showSnackbar( res.msg! )
+                                                              this.router.navigateByUrl('user/cartera')
+                                                            }
+                                                            }, error => {
+                                                              console.log( error )
+                                                              Swal.fire( 'Error', `${ error.error.error }`, 'error')
+                                                              this.miFormulario.reset();
+                                                            })
+                  }
+                })
   }
 
   showSnackbar( message: string ):void {
